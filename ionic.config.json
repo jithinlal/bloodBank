@@ -1,0 +1,7 @@
+{
+  "name": "firestore-example",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
