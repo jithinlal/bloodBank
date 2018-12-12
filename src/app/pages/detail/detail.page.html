@@ -1,0 +1,25 @@
+<ion-header>
+	<ion-toolbar color="danger">
+		<ion-buttons slot="start">
+			<ion-back-button></ion-back-button>
+		</ion-buttons>
+		<ion-title>
+			{{ (bloodGroup | async)?.group }}
+		</ion-title>
+		<ion-buttons slot="end" routerLink="/create/{{bloodGroupId}}">
+			<ion-icon slot="icon-only" name="add"></ion-icon>
+		</ion-buttons>
+
+	</ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-card *ngFor="let person of persons | async" routerLink="/detail/{{person.id}}">
+		<ion-card-header>
+			{{person.name}}
+		</ion-card-header>
+		<ion-card-content>
+			Contact Number: {{person.phone}}
+		</ion-card-content>
+	</ion-card>
+</ion-content>

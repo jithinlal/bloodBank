@@ -1,0 +1,35 @@
+<ion-header>
+	<ion-toolbar color="danger">
+		<ion-buttons slot="start">
+			<ion-back-button></ion-back-button>
+		</ion-buttons>
+		<ion-title>Add People</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+	<form [formGroup]="addPersonForm" (submit)="addPerson()">
+		<ion-item>
+			<ion-label stacked>Name</ion-label>
+			<ion-input formControlName="name" type="text"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label stacked>Contact Address</ion-label>
+			<ion-textarea formControlName="address" type="text">
+			</ion-textarea>
+		</ion-item>
+
+		<ion-item>
+			<ion-label stacked>Contact No</ion-label>
+			<ion-input formControlName="contact" type="text">
+			</ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-label stacked>Last Bleeding Date</ion-label>
+			<ion-datetime formControlName="bleedDate" type="text">
+			</ion-datetime>
+		</ion-item>
+		<ion-button expand="block" type="submit" [disabled]="!addPersonForm.valid">Add</ion-button>
+	</form>
+</ion-content>

@@ -1,12 +1,16 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-toolbar>
+	<ion-toolbar color="danger">
+		<ion-title>Blood Groups</ion-title>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>If you get lost, the <a target="_blank" rel="noopener" href="https://beta.ionicframework.com/docs/">docs</a> will be your guide.</p>
+	<ion-card *ngFor="let group of bloodGroups | async" routerLink="/detail/{{group.id}}">
+		<ion-card-header>
+			{{group.group}}
+		</ion-card-header>
+		<ion-card-content>
+			Number of People: {{group.userCount}}
+		</ion-card-content>
+	</ion-card>
 </ion-content>
