@@ -51,4 +51,11 @@ export class DetailPage implements OnInit {
 	// 	});
 	// 	await alert.present();
 	// }
+
+	edit(id) {
+		console.log(id);
+	}
+	delete(e) {
+		console.log(e);
+	}
 }

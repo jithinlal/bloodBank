@@ -29,7 +29,6 @@ export class FirestoreService {
 	}
 
 	updateUserCount(groupId, userCount) {
-		console.log(userCount, groupId);
 		return this.fireStore
 			.collection(`bloodGroups`)
 			.doc(groupId)
