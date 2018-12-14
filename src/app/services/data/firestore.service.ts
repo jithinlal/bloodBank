@@ -24,7 +24,16 @@ export class FirestoreService {
 
 	getBloodGroupPersons(groupId: string): AngularFirestoreCollection<Person> {
 		return this.fireStore.collection(`persons`, ref =>
-			ref.where('groupId', '==', groupId).orderBy('last_donation_date', 'desc')
+			ref.where('groupId', '==', groupId).orderBy('last_donation_date', 'asc')
+		);
+	}
+
+	getBloodGroupPersonsByName(groupId: string, text: string): AngularFirestoreCollection<Person> {
+		return this.fireStore.collection(`persons`, ref =>
+			ref
+				.where('groupId', '==', groupId)
+				.where('name', '==', text)
+				.orderBy('last_donation_date', 'asc')
 		);
 	}
 
@@ -35,7 +44,7 @@ export class FirestoreService {
 			.update({ userCount });
 	}
 
-	// deleteSong(song: String): Promise<void> {
-	// 	return this.fireStore.doc(`songList/${song}`).delete();
-	// }
+	removePerson(personId: String): Promise<void> {
+		return this.fireStore.doc(`persons/${personId}`).delete();
+	}
 }

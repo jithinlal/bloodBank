@@ -3,41 +3,30 @@
 		<ion-buttons slot="start">
 			<ion-back-button></ion-back-button>
 		</ion-buttons>
-		<ion-title>
-			{{ (bloodGroup | async)?.group }}
-		</ion-title>
+		<ion-title> {{ (bloodGroup | async)?.group }} </ion-title>
 		<ion-buttons slot="end" routerLink="/create/{{bloodGroupId}}">
 			<ion-icon slot="icon-only" name="add"></ion-icon>
 		</ion-buttons>
-
 	</ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-	<!-- <ion-card *ngFor="let person of persons | async" routerLink="/detail/{{person.id}}">
-		<ion-card-header>
-			{{person.name}}
-		</ion-card-header>
-		<ion-card-content>
-			Contact Number: {{person.phone}}
-		</ion-card-content>
-	</ion-card> -->
+	<ion-searchbar mode="ios" animated="true" show-cancel-button placeholder="Search" (ionInput)="search($event)">
+	</ion-searchbar>
 
-	<ion-list *ngFor="let person of persons | async" routerLink="/detail/{{person.id}}">
+	<ion-list *ngFor="let person of (persons | async)">
 		<ion-item-sliding>
 			<ion-item>
 				<ion-label>{{ person.name }}</ion-label>
-				{{person.phone}}
+				{{ person.phone }}
 			</ion-item>
 			<ion-item-options side="start">
-
 				<ion-item-option (click)="edit(person.id)">
 					<ion-icon name="create"></ion-icon>
 				</ion-item-option>
 			</ion-item-options>
 
 			<ion-item-options side="end">
-
 				<ion-item-option color="danger" (click)="delete(person.id)">
 					<ion-icon name="trash"></ion-icon>
 				</ion-item-option>

@@ -15,7 +15,8 @@ import { Observable } from 'rxjs';
 export class DetailPage implements OnInit {
 	public bloodGroup: Observable<BloodGroup>;
 	public persons: Observable<Person[]>;
-	public bloodGroupId: String;
+	public bloodGroupId: string;
+	public userCount: number;
 	constructor(
 		private fireStoreService: FirestoreService,
 		private route: ActivatedRoute,
@@ -28,34 +29,48 @@ export class DetailPage implements OnInit {
 		this.bloodGroupId = bloodGroupId;
 		this.persons = this.fireStoreService.getBloodGroupPersons(bloodGroupId).valueChanges();
 	}
-	// async deleteSong() {
-	// 	const alert = await this.alertController.create({
-	// 		message: 'Are you sure you want to delete the song?',
-	// 		buttons: [
-	// 			{
-	// 				text: 'Cancel',
-	// 				role: 'cancel',
-	// 				handler: blah => {
-	// 					console.log('Confirm cancel:blah');
-	// 				},
-	// 			},
-	// 			{
-	// 				text: 'Okay',
-	// 				handler: () => {
-	// 					this.fireStoreService.deleteSong(this.songId).then(() => {
-	// 						this.router.navigateByUrl('');
-	// 					});
-	// 				},
-	// 			},
-	// 		],
-	// 	});
-	// 	await alert.present();
-	// }
 
 	edit(id) {
 		console.log(id);
 	}
-	delete(e) {
-		console.log(e);
+
+	async delete(id) {
+		const that = this;
+		this.fireStoreService
+			.getBloodGroupName(this.bloodGroupId)
+			.ref.get()
+			.then(function(doc) {
+				that.userCount = doc.data().userCount;
+			});
+		const alert = await this.alertController.create({
+			message: 'Are you sure you want to remove this person?',
+			buttons: [
+				{
+					text: 'Cancel',
+					role: 'cancel',
+					handler: blah => {
+						console.log('Confirm cancel:blah');
+					},
+				},
+				{
+					text: 'Delete',
+					handler: () => {
+						this.fireStoreService.removePerson(id).then(() => {
+							this.fireStoreService.updateUserCount(this.bloodGroupId, this.userCount - 1).then(() => {
+								that.router.navigateByUrl('');
+							});
+						});
+					},
+				},
+			],
+		});
+
+		return await alert.present();
+	}
+
+	search(e) {
+		this.persons = this.fireStoreService
+			.getBloodGroupPersonsByName(this.bloodGroupId, e.target.value)
+			.valueChanges();
 	}
 }
