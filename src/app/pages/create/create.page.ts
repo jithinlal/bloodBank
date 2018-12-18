@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LoadingController, AlertController } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FirestoreService } from '../../services/data/firestore.service';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { LoadingController, AlertController } from "@ionic/angular";
+import { Router, ActivatedRoute } from "@angular/router";
+import { FirestoreService } from "../../services/data/firestore.service";
 
 @Component({
-	selector: 'app-create',
-	templateUrl: './create.page.html',
-	styleUrls: ['./create.page.scss'],
+	selector: "app-create",
+	templateUrl: "./create.page.html",
+	styleUrls: ["./create.page.scss"]
 })
 export class CreatePage implements OnInit {
 	public addPersonForm: FormGroup;
@@ -22,15 +22,14 @@ export class CreatePage implements OnInit {
 		formBuilder: FormBuilder
 	) {
 		this.addPersonForm = formBuilder.group({
-			name: ['', Validators.required],
-			address: ['', Validators.required],
-			contact: ['', Validators.required],
-			bleedDate: ['', Validators.required],
+			name: ["", Validators.required],
+			address: ["", Validators.required],
+			contact: ["", Validators.required],
 		});
 	}
 
 	ngOnInit() {
-		const bloodGroupId: string = this.route.snapshot.paramMap.get('id');
+		const bloodGroupId: string = this.route.snapshot.paramMap.get("id");
 		this.bloodGroupId = bloodGroupId;
 		const that = this;
 		this.firestoreService
@@ -50,18 +49,22 @@ export class CreatePage implements OnInit {
 		const bleedDate = this.addPersonForm.value.bleedDate;
 		const bloodGroupId = this.bloodGroupId;
 		const that = this;
-		await this.firestoreService.addPerson(name, address, contact, bleedDate, bloodGroupId).then(() => {
-			this.firestoreService.updateUserCount(bloodGroupId, this.userCount + 1).then(function() {
-				loading.dismiss().then(
-					() => {
-						that.router.navigateByUrl('');
-					},
-					error => {
-						console.error(error);
-					}
-				);
+		await this.firestoreService
+			.addPerson(name, address, contact, bleedDate, bloodGroupId)
+			.then(() => {
+				this.firestoreService
+					.updateUserCount(bloodGroupId, this.userCount + 1)
+					.then(function() {
+						loading.dismiss().then(
+							() => {
+								that.router.navigateByUrl("");
+							},
+							error => {
+								console.error(error);
+							}
+						);
+					});
 			});
-		});
 		return await loading.present();
 	}
 }

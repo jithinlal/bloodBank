@@ -14,10 +14,11 @@
 	<ion-searchbar mode="ios" animated="true" show-cancel-button placeholder="Search" (ionInput)="search($event)">
 	</ion-searchbar>
 
-	<ion-list *ngFor="let person of (persons | async)">
+	<ion-list *ngFor="let person of persons">
 		<ion-item-sliding>
 			<ion-item>
 				<ion-label>{{ person.name }}</ion-label>
+				<ion-label>{{ person.last_donation_date | date:'dd/MMMM/yyyy' }}</ion-label>
 				{{ person.phone }}
 			</ion-item>
 			<ion-item-options side="start">

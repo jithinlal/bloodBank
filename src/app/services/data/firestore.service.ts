@@ -1,17 +1,30 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { BloodGroup } from '../../models/blood-group.interface';
-import { Person } from '../../models/person.interface';
+import { Injectable } from "@angular/core";
+import {
+	AngularFirestore,
+	AngularFirestoreCollection,
+	AngularFirestoreDocument
+} from "angularfire2/firestore";
+import { BloodGroup } from "../../models/blood-group.interface";
+import { Person } from "../../models/person.interface";
 
 @Injectable({
-	providedIn: 'root',
+	providedIn: "root"
 })
 export class FirestoreService {
 	constructor(public fireStore: AngularFirestore) {}
 
-	addPerson(name: string, address: string, phone: number, last_donation_date: any, groupId: string): Promise<void> {
+	addPerson(
+		name: string,
+		address: string,
+		phone: number,
+		last_donation_date: any,
+		groupId: string
+	): Promise<void> {
+		console.log(last_donation_date);
 		const id = this.fireStore.createId();
-		return this.fireStore.doc(`persons/${id}`).set({ id, name, last_donation_date, phone, address, groupId });
+		return this.fireStore
+			.doc(`persons/${id}`)
+			.set({ id, name, last_donation_date, phone, address, groupId });
 	}
 
 	getBloodGroupList(): AngularFirestoreCollection<BloodGroup> {
@@ -19,21 +32,26 @@ export class FirestoreService {
 	}
 
 	getBloodGroupName(groupId: string): AngularFirestoreDocument<BloodGroup> {
-		return this.fireStore.collection('bloodGroups').doc(groupId);
+		return this.fireStore.collection("bloodGroups").doc(groupId);
 	}
 
 	getBloodGroupPersons(groupId: string): AngularFirestoreCollection<Person> {
 		return this.fireStore.collection(`persons`, ref =>
-			ref.where('groupId', '==', groupId).orderBy('last_donation_date', 'asc')
+			ref
+				.where("groupId", "==", groupId)
+				.orderBy("last_donation_date", "asc")
 		);
 	}
 
-	getBloodGroupPersonsByName(groupId: string, text: string): AngularFirestoreCollection<Person> {
+	getBloodGroupPersonsByName(
+		groupId: string,
+		text: string
+	): AngularFirestoreCollection<Person> {
 		return this.fireStore.collection(`persons`, ref =>
 			ref
-				.where('groupId', '==', groupId)
-				.where('name', '==', text)
-				.orderBy('last_donation_date', 'asc')
+				.where("groupId", "==", groupId)
+				.where("name", "==", text)
+				.orderBy("last_donation_date", "asc")
 		);
 	}
 
@@ -46,5 +64,22 @@ export class FirestoreService {
 
 	removePerson(personId: String): Promise<void> {
 		return this.fireStore.doc(`persons/${personId}`).delete();
+	}
+
+	getPersonDetails(personId: string): AngularFirestoreDocument<Person> {
+		return this.fireStore.collection(`persons`).doc(personId);
+	}
+
+	editPerson(
+		name: string,
+		address: string,
+		phone: number,
+		last_donation_date: any,
+		personId: string
+	) {
+		return this.fireStore
+			.collection(`persons`)
+			.doc(personId)
+			.update({ name, address, phone, last_donation_date });
 	}
 }

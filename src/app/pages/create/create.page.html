@@ -10,20 +10,24 @@
 <ion-content padding>
 	<form [formGroup]="addPersonForm" (submit)="addPerson()">
 		<ion-item>
-			<ion-input formControlName="name" type="text" placeholder="Name"></ion-input>
+			<ion-label color="primary" position="floating">Name</ion-label>
+			<ion-input formControlName="name" type="text" class="form-controll"></ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-textarea formControlName="address" type="text" placeholder="Address">
+			<ion-label color="primary" position="floating">Address</ion-label>
+			<ion-textarea formControlName="address" type="text">
 			</ion-textarea>
 		</ion-item>
 
 		<ion-item>
-			<ion-input formControlName="contact" type="text" placeholder="Phone Number">
+			<ion-label color="primary" position="floating">Phone</ion-label>
+			<ion-input formControlName="contact" type="number">
 			</ion-input>
 		</ion-item>
 
 		<ion-item>
-			<ion-datetime formControlName="bleedDate" type="text" placeholder="Last bleed date">
+			<ion-label color="primary" position="floating">Last Bleed Date</ion-label>
+			<ion-datetime formControlName="bleedDate" type="text">
 			</ion-datetime>
 		</ion-item>
 		<ion-button expand="block" type="submit" [disabled]="!addPersonForm.valid">Add</ion-button>
