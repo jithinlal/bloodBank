@@ -1,4 +1,4 @@
-import { Datetime } from "@ionic/angular";
+import { Datetime } from '@ionic/angular';
 
 export interface Person {
 	id: string;
