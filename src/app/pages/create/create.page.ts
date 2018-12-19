@@ -23,6 +23,7 @@ export class CreatePage implements OnInit {
 	) {
 		this.addPersonForm = formBuilder.group({
 			name: ['', Validators.required],
+			place: ['', Validators.required],
 			address: ['', Validators.required],
 			contact: ['', Validators.required],
 			bleedDate: [''],
@@ -47,10 +48,11 @@ export class CreatePage implements OnInit {
 		const name = this.addPersonForm.value.name;
 		const address = this.addPersonForm.value.address;
 		const contact = this.addPersonForm.value.contact;
+		const place = this.addPersonForm.value.place;
 		const bleedDate = this.addPersonForm.value.bleedDate;
 		const bloodGroupId = this.bloodGroupId;
 		const that = this;
-		await this.firestoreService.addPerson(name, address, contact, bleedDate, bloodGroupId).then(() => {
+		await this.firestoreService.addPerson(name, address, place, contact, bleedDate, bloodGroupId).then(() => {
 			this.firestoreService.updateUserCount(bloodGroupId, this.userCount + 1).then(function() {
 				loading.dismiss().then(
 					() => {

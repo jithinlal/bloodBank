@@ -30,7 +30,7 @@
 	<ion-card>
 		<ion-card-header>
 			<ion-card-subtitle color="danger">{{ (group | async)?.group }}</ion-card-subtitle>
-			<ion-card-title>{{ (person | async)?.address }}</ion-card-title>
+			<ion-card-title>{{ (person | async)?.place }}</ion-card-title>
 		</ion-card-header>
 		<ion-item>
 			<ion-label>{{ (person | async)?.phone }}</ion-label>
@@ -41,7 +41,9 @@
 
 		<ion-card-content>
 			<ion-label>
-				His last donation date is on : <b>{{ (person | async)?.last_donation_date | date:'dd/MMMM/yyyy' }}</b>
+				Last donation date is on : <b>{{ (person | async)?.last_donation_date | date:'dd/MMMM/yyyy' }}</b>
+				<hr>
+				Address: <b>{{ (person | async)?.address }}</b>
 			</ion-label>
 		</ion-card-content>
 	</ion-card>

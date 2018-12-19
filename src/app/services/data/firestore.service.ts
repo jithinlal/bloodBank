@@ -9,10 +9,19 @@ import { Person } from '../../models/person.interface';
 export class FirestoreService {
 	constructor(public fireStore: AngularFirestore) {}
 
-	addPerson(name: string, address: string, phone: number, last_donation_date: any, groupId: string): Promise<void> {
+	addPerson(
+		name: string,
+		address: string,
+		place: string,
+		phone: number,
+		last_donation_date: any,
+		groupId: string
+	): Promise<void> {
 		console.log(last_donation_date);
 		const id = this.fireStore.createId();
-		return this.fireStore.doc(`persons/${id}`).set({ id, name, last_donation_date, phone, address, groupId });
+		return this.fireStore
+			.doc(`persons/${id}`)
+			.set({ id, name, last_donation_date, phone, place, address, groupId });
 	}
 
 	getBloodGroupList(): AngularFirestoreCollection<BloodGroup> {
@@ -53,10 +62,10 @@ export class FirestoreService {
 		return this.fireStore.collection(`persons`).doc(personId);
 	}
 
-	editPerson(name: string, address: string, phone: number, last_donation_date: any, personId: string) {
+	editPerson(name: string, address: string, place: string, phone: number, last_donation_date: any, personId: string) {
 		return this.fireStore
 			.collection(`persons`)
 			.doc(personId)
-			.update({ name, address, phone, last_donation_date });
+			.update({ name, address, phone, place, last_donation_date });
 	}
 }
