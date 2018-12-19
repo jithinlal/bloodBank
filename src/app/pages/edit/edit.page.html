@@ -1,35 +1,38 @@
 <ion-header>
-  <ion-toolbar color="danger">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{ (person | async)?.name }}</ion-title>
-  </ion-toolbar>
+	<ion-toolbar color="danger">
+		<ion-buttons slot="start">
+			<ion-back-button></ion-back-button>
+		</ion-buttons>
+		<ion-title>{{ (person | async)?.name }}</ion-title>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="editPersonForm" (submit)="editPerson()">
-    <ion-item>
-      <ion-label color="primary" position="floating">Name</ion-label>
-      <ion-input formControlName="name" type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" position="floating">Address</ion-label>
-      <ion-input formControlName="address" type="text">
-      </ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label color="primary" position="floating">Phone</ion-label>
-      <ion-input formControlName="contact" type="text">
-      </ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label color="primary" position="floating">Last Bleed Date</ion-label>
-      <ion-datetime formControlName="bleedDate" type="text">
-      </ion-datetime>
-    </ion-item>
-    <ion-button expand="block" type="submit" [disabled]="!editPersonForm.valid">Update</ion-button>
-  </form>
+	<form [formGroup]="editPersonForm" (submit)="editPerson()">
+		<ion-item>
+			<ion-label color="primary" position="floating">Name</ion-label>
+			<ion-input formControlName="name" type="text"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label color="primary" position="floating">Location</ion-label>
+			<ion-input formControlName="place" type="text">
+			</ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label color="primary" position="floating">Address</ion-label>
+			<ion-input formControlName="address" type="text">
+			</ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label color="primary" position="floating">Phone</ion-label>
+			<ion-input formControlName="contact" type="text">
+			</ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label color="primary" position="floating">Last Bleed Date</ion-label>
+			<ion-datetime formControlName="bleedDate" type="text">
+			</ion-datetime>
+		</ion-item>
+		<ion-button expand="block" type="submit" [disabled]="!editPersonForm.valid">Update</ion-button>
+	</form>
 </ion-content>

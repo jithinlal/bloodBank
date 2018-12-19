@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { LoadingController } from "@ionic/angular";
-import { FirestoreService } from "../../services/data/firestore.service";
-import { Person } from "../../models/person.interface";
-import { Observable } from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { LoadingController } from '@ionic/angular';
+import { FirestoreService } from '../../services/data/firestore.service';
+import { Person } from '../../models/person.interface';
+import { Observable } from 'rxjs';
 
 @Component({
-	selector: "app-edit",
-	templateUrl: "./edit.page.html",
-	styleUrls: ["./edit.page.scss"]
+	selector: 'app-edit',
+	templateUrl: './edit.page.html',
+	styleUrls: ['./edit.page.scss'],
 })
 export class EditPage implements OnInit {
 	public editPersonForm: FormGroup;
@@ -22,11 +22,13 @@ export class EditPage implements OnInit {
 		formBuilder: FormBuilder,
 		public loadingCtrl: LoadingController
 	) {
-		this.personId = this.route.snapshot.paramMap.get("id");
+		this.personId = this.route.snapshot.paramMap.get('id');
 		this.editPersonForm = formBuilder.group({
-			name: ["", Validators.required],
-			address: ["", Validators.required],
-			contact: ["", Validators.required]
+			name: ['', Validators.required],
+			place: ['', Validators.required],
+			address: ['', Validators.required],
+			contact: ['', Validators.required],
+			bleedDate: [''],
 		});
 	}
 
@@ -37,9 +39,10 @@ export class EditPage implements OnInit {
 			.subscribe(data => {
 				this.editPersonForm.setValue({
 					name: data.name,
+					place: data.place,
 					address: data.address,
 					contact: data.phone,
-					bleedDate: data.last_donation_date
+					bleedDate: data.last_donation_date,
 				});
 			});
 	}
@@ -50,22 +53,20 @@ export class EditPage implements OnInit {
 		const name = this.editPersonForm.value.name;
 		const address = this.editPersonForm.value.address;
 		const contact = this.editPersonForm.value.contact;
+		const place = this.editPersonForm.value.place;
 		const bleedDate = this.editPersonForm.value.bleedDate;
 
 		const that = this;
-		this.fireStoreService
-			.editPerson(name, address, contact, bleedDate, this.personId)
-			.then(function() {
-				loading.dismiss().then(
-					() => {
-						that.router.navigateByUrl("");
-					},
-					error => {
-						console.error(error);
-					}
-				);
-			});
-		console.log("chekc");
+		this.fireStoreService.editPerson(name, address, place, contact, bleedDate, this.personId).then(function() {
+			loading.dismiss().then(
+				() => {
+					that.router.navigateByUrl('');
+				},
+				error => {
+					console.error(error);
+				}
+			);
+		});
 		return await loading.present();
 	}
 }

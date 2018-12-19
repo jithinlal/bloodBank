@@ -1,0 +1,50 @@
+<ion-header>
+	<ion-toolbar color="danger">
+		<ion-buttons slot="start">
+			<ion-back-button></ion-back-button>
+		</ion-buttons>
+		<ion-title>{{ (person | async)?.name }}</ion-title>
+		<ion-buttons slot="end" routerLink="/edit/{{personId}}">
+			<ion-icon slot="icon-only" name="create"></ion-icon>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-grid>
+		<ion-row>
+			<ion-col>
+			</ion-col>
+			<ion-col>
+				<div>
+					<ion-avatar>
+						<img src="{{imagePath}}">
+					</ion-avatar>
+				</div>
+			</ion-col>
+			<ion-col>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+	<ion-card>
+		<ion-card-header>
+			<ion-card-subtitle color="danger">{{ (group | async)?.group }}</ion-card-subtitle>
+			<ion-card-title>{{ (person | async)?.place }}</ion-card-title>
+		</ion-card-header>
+		<ion-item>
+			<ion-label>{{ (person | async)?.phone }}</ion-label>
+			<ion-button color="success" fill="outline" slot="end" (click)="call(phoneNumber)">
+				<ion-icon name="call"></ion-icon>
+			</ion-button>
+		</ion-item>
+
+		<ion-card-content>
+			<ion-label>
+				Last donation date is on : <b>{{ (person | async)?.last_donation_date | date:'dd/MMMM/yyyy' }}</b>
+				<hr>
+				Address: <b>{{ (person | async)?.address }}</b>
+			</ion-label>
+		</ion-card-content>
+	</ion-card>
+</ion-content>
