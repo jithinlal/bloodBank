@@ -89,10 +89,9 @@ export class DetailPage implements OnInit {
 		if (!q) {
 			return;
 		}
-		console.log(this.persons);
 		this.persons = this.persons.filter(v => {
-			if (v.name && q) {
-				if (v.name.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+			if (v.place && q) {
+				if (v.place.toLowerCase().indexOf(q.toLowerCase()) > -1) {
 					return true;
 				}
 				return false;
