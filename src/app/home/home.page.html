@@ -1,11 +1,16 @@
 <ion-header>
 	<ion-toolbar color="danger">
 		<ion-title>Blood Groups</ion-title>
+		<ion-buttons slot="end">
+			<ion-button (click)="logout()">
+				<ion-icon name="power"></ion-icon>
+			</ion-button>
+		</ion-buttons>
 	</ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-	<ion-card *ngFor="let group of bloodGroups | async" routerLink="/detail/{{group.id}}">
+	<ion-card *ngFor="let group of bloodGroups | async" routerLink="/members/detail/{{group.id}}">
 		<ion-card-header>
 			{{group.group}}
 		</ion-card-header>

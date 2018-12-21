@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 @Component({
 	selector: 'app-summary',
 	templateUrl: './summary.page.html',
-	styleUrls: ['./summary.page.scss'],
+	styleUrls: ['./summary.page.scss']
 })
 export class SummaryPage implements OnInit {
 	public personId: string;
@@ -30,11 +30,15 @@ export class SummaryPage implements OnInit {
 	}
 
 	ngOnInit() {
-		this.person = this.fireStoreService.getPersonDetails(this.personId).valueChanges();
+		this.person = this.fireStoreService
+			.getPersonDetails(this.personId)
+			.valueChanges();
 		this.person.subscribe(val => {
 			this.phoneNumber = val.phone;
 		});
-		this.group = this.fireStoreService.getBloodGroupName(this.groupId).valueChanges();
+		this.group = this.fireStoreService
+			.getBloodGroupName(this.groupId)
+			.valueChanges();
 		this.group.subscribe(val => {
 			this.groupName = val.group.replace(/ /g, '');
 			this.imagePath = 'assets/img/' + this.groupName + '.png';
@@ -42,9 +46,9 @@ export class SummaryPage implements OnInit {
 	}
 
 	call(num) {
-		// this.callNumber
-		// 	.callNumber(num, true)
-		// 	.then(res => console.log('Launched dialer', res))
-		// 	.catch(err => console.log('Error launching dialer', err));
+		this.callNumber
+			.callNumber(num, true)
+			.then(res => console.log('Launched dialer', res))
+			.catch(err => console.log('Error launching dialer', err));
 	}
 }

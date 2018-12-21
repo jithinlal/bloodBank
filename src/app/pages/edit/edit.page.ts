@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 @Component({
 	selector: 'app-edit',
 	templateUrl: './edit.page.html',
-	styleUrls: ['./edit.page.scss'],
+	styleUrls: ['./edit.page.scss']
 })
 export class EditPage implements OnInit {
 	public editPersonForm: FormGroup;
@@ -28,7 +28,7 @@ export class EditPage implements OnInit {
 			place: ['', Validators.required],
 			address: ['', Validators.required],
 			contact: ['', Validators.required],
-			bleedDate: [''],
+			bleedDate: ['']
 		});
 	}
 
@@ -42,7 +42,7 @@ export class EditPage implements OnInit {
 					place: data.place,
 					address: data.address,
 					contact: data.phone,
-					bleedDate: data.last_donation_date,
+					bleedDate: data.last_donation_date
 				});
 			});
 	}
@@ -57,16 +57,18 @@ export class EditPage implements OnInit {
 		const bleedDate = this.editPersonForm.value.bleedDate;
 
 		const that = this;
-		this.fireStoreService.editPerson(name, address, place, contact, bleedDate, this.personId).then(function() {
-			loading.dismiss().then(
-				() => {
-					that.router.navigateByUrl('');
-				},
-				error => {
-					console.error(error);
-				}
-			);
-		});
+		this.fireStoreService
+			.editPerson(name, address, place, contact, bleedDate, this.personId)
+			.then(function() {
+				loading.dismiss().then(
+					() => {
+						that.router.navigateByUrl('members/home');
+					},
+					error => {
+						console.error(error);
+					}
+				);
+			});
 		return await loading.present();
 	}
 }

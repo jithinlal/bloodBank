@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 @Component({
 	selector: 'app-detail',
 	templateUrl: './detail.page.html',
-	styleUrls: ['./detail.page.scss'],
+	styleUrls: ['./detail.page.scss']
 })
 export class DetailPage implements OnInit {
 	public bloodGroup: Observable<BloodGroup>;
@@ -27,7 +27,9 @@ export class DetailPage implements OnInit {
 	) {}
 	ngOnInit() {
 		const bloodGroupId: string = this.route.snapshot.paramMap.get('id');
-		this.bloodGroup = this.fireStoreService.getBloodGroupName(bloodGroupId).valueChanges();
+		this.bloodGroup = this.fireStoreService
+			.getBloodGroupName(bloodGroupId)
+			.valueChanges();
 		this.bloodGroupId = bloodGroupId;
 		const that = this;
 		this.fireStoreService
@@ -44,7 +46,7 @@ export class DetailPage implements OnInit {
 	}
 
 	summary(id, groupId) {
-		this.router.navigateByUrl(`summary/${id}/${groupId}`);
+		this.router.navigateByUrl(`members/summary/${id}/${groupId}`);
 	}
 
 	async delete(e, id) {
@@ -64,19 +66,24 @@ export class DetailPage implements OnInit {
 					role: 'cancel',
 					handler: blah => {
 						console.log('Confirm cancel:blah');
-					},
+					}
 				},
 				{
 					text: 'Delete',
 					handler: () => {
 						this.fireStoreService.removePerson(id).then(() => {
-							this.fireStoreService.updateUserCount(this.bloodGroupId, this.userCount - 1).then(() => {
-								that.router.navigateByUrl('');
-							});
+							this.fireStoreService
+								.updateUserCount(
+									this.bloodGroupId,
+									this.userCount - 1
+								)
+								.then(() => {
+									that.router.navigateByUrl('members/home');
+								});
 						});
-					},
-				},
-			],
+					}
+				}
+			]
 		});
 
 		return await alert.present();
