@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { Platform } from '@ionic/angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { GooglePlus } from '@ionic-native/google-plus';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import * as firebase from 'firebase/app';
 import AuthProvider = firebase.auth.AuthProvider;
 
@@ -31,9 +31,9 @@ export class AuthService {
 
 	login() {
 		if (this.plt.is('cordova')) {
-			this.nativeLogin();
+			return this.nativeLogin();
 		} else {
-			this.webLogin();
+			return this.webLogin();
 		}
 		// the token that you get from google
 		// // return this.oauthSignIn(new firebase.auth.GoogleAuthProvider());
@@ -61,7 +61,16 @@ export class AuthService {
 	async webLogin(): Promise<any> {
 		try {
 			const provider = new firebase.auth.GoogleAuthProvider();
-			const credential = await this.afAuth.auth.signInWithPopup(provider);
+			const credential = await this.afAuth.auth
+				.signInWithPopup(provider)
+				.then(res => {
+					this.storage
+						.set(TOKEN_KEY, res.user.refreshToken)
+						.then(result => {
+							this.authenticationState.next(true);
+						});
+				});
+			return credential;
 		} catch (err) {
 			console.log(err);
 		}
