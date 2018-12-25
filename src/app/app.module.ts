@@ -3,7 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth, AngularFireAuthModule } from 'angularfire2/auth';
+import { GooglePlus } from '@ionic-native/google-plus';
 import { firebaseConfig } from './credentials';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -22,6 +23,7 @@ import { AppRoutingModule } from './app-routing.module';
 		IonicModule.forRoot(),
 		AppRoutingModule,
 		AngularFireModule.initializeApp(firebaseConfig),
+		AngularFireAuthModule,
 		AngularFirestoreModule,
 		IonicStorageModule.forRoot()
 	],
@@ -29,6 +31,7 @@ import { AppRoutingModule } from './app-routing.module';
 		StatusBar,
 		CallNumber,
 		SplashScreen,
+		GooglePlus,
 		{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 		AngularFireAuth
 	],

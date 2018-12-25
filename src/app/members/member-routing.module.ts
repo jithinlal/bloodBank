@@ -17,7 +17,7 @@ const routes: Routes = [
 	},
 	{
 		path: 'summary/:id/:groupId',
-		loadChildren: '../summary/summary.module#SummaryPageModule'
+		loadChildren: '../summary/summary/summary.module#SummaryPageModule'
 	}
 ];
 
