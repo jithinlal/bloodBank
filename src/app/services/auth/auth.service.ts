@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Storage } from '@ionic/storage';
-import { Platform } from '@ionic/angular';
+import { Platform, LoadingController } from '@ionic/angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import * as firebase from 'firebase/app';
@@ -21,7 +21,8 @@ export class AuthService {
 		private storage: Storage,
 		private plt: Platform,
 		private afAuth: AngularFireAuth,
-		private gplus: GooglePlus
+		private gplus: GooglePlus,
+		private loadingController: LoadingController
 	) {
 		afAuth.authState.subscribe(user => {
 			this.user = user;
@@ -42,17 +43,44 @@ export class AuthService {
 		// });
 	}
 
+	async presentLoading(loading) {
+		return await loading.present();
+	}
+
 	async nativeLogin(): Promise<any> {
 		try {
+			const loading = await this.loadingController.create({
+				message: 'Please wait...',
+				mode: 'ios',
+				spinner: 'crescent',
+				translucent: true
+			});
+
+			this.presentLoading(loading);
+
 			const gplusUser = await this.gplus.login({
 				webClientId:
 					'1060060153730-ui25v1oq5r2k9rjg891bjrb5qinae109.apps.googleusercontent.com',
 				offline: true,
 				scopes: 'profile email'
 			});
-			return await this.afAuth.auth.signInWithCredential(
-				firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken)
-			);
+			const credential = await this.afAuth.auth
+				.signInWithCredential(
+					firebase.auth.GoogleAuthProvider.credential(
+						gplusUser.idToken
+					)
+				)
+				.then(res => {
+					loading.dismiss();
+					const that = this;
+					this.storage
+						.set(TOKEN_KEY, res.refreshToken)
+						.then(result => {
+							loading.dismiss();
+							that.authenticationState.next(true);
+						});
+				});
+			return credential;
 		} catch (err) {
 			console.log(err);
 		}
