@@ -10,7 +10,7 @@ import AuthProvider = firebase.auth.AuthProvider;
 const TOKEN_KEY = 'auth-token';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class AuthService {
 	authenticationState = new BehaviorSubject(false);
@@ -59,10 +59,9 @@ export class AuthService {
 			this.presentLoading(loading);
 
 			const gplusUser = await this.gplus.login({
-				webClientId:
-					'1060060153730-ui25v1oq5r2k9rjg891bjrb5qinae109.apps.googleusercontent.com',
+				webClientId: '',
 				offline: true,
-				scopes: 'profile email'
+				scopes: 'profile email',
 			});
 			const credential = await this.afAuth.auth
 				.signInWithCredential(
@@ -89,15 +88,11 @@ export class AuthService {
 	async webLogin(): Promise<any> {
 		try {
 			const provider = new firebase.auth.GoogleAuthProvider();
-			const credential = await this.afAuth.auth
-				.signInWithPopup(provider)
-				.then(res => {
-					this.storage
-						.set(TOKEN_KEY, res.user.refreshToken)
-						.then(result => {
-							this.authenticationState.next(true);
-						});
+			const credential = await this.afAuth.auth.signInWithPopup(provider).then(res => {
+				this.storage.set(TOKEN_KEY, res.user.refreshToken).then(result => {
+					this.authenticationState.next(true);
 				});
+			});
 			return credential;
 		} catch (err) {
 			console.log(err);
@@ -107,11 +102,9 @@ export class AuthService {
 	private oauthSignIn(provider: AuthProvider) {
 		if (!(<any>window).cordova) {
 			return this.afAuth.auth.signInWithPopup(provider).then(res => {
-				this.storage
-					.set(TOKEN_KEY, res.user.refreshToken)
-					.then(result => {
-						this.authenticationState.next(true);
-					});
+				this.storage.set(TOKEN_KEY, res.user.refreshToken).then(result => {
+					this.authenticationState.next(true);
+				});
 			});
 		} else {
 			return this.afAuth.auth.signInWithRedirect(provider).then(() => {
@@ -120,11 +113,9 @@ export class AuthService {
 					.then(result => {
 						console.log(result);
 						const that = this;
-						this.storage
-							.set(TOKEN_KEY, result.user.refreshToken)
-							.then(res => {
-								that.authenticationState.next(true);
-							});
+						this.storage.set(TOKEN_KEY, result.user.refreshToken).then(res => {
+							that.authenticationState.next(true);
+						});
 					})
 					.catch(function(error) {
 						alert(error.message);
